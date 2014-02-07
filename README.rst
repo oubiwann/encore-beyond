@@ -71,6 +71,7 @@ Dev server:
 
 This will install all the dependencies and compile everything you need.
 
+
 Troubleshooting
 ---------------
 
@@ -92,7 +93,6 @@ printing (e.g., ``(: io format ...)``) sent to sdout, just do this:
 
     $ make dev
 
-<<<<<<< HEAD
 To run the daemon, do:
 
 .. code:: bash
@@ -104,12 +104,6 @@ To stop the server once in daemon mode, do:
 .. code:: bash
 
     $ make stop
-=======
-Production server:
-    $ made run
-
-This will install all the dependencies and start up the YAWS server.
->>>>>>> 01589523fe054187e44ab3a1a78c2c0bc970dcf8
 
 
 Checking the HTTP Verbs
