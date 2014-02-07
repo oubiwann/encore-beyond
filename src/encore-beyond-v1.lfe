@@ -6,8 +6,10 @@
   "REST API Routes"
   (('"/demo" method arg-data)
     (: encore-beyond-demo get-data method arg-data))
-  ((a b c)
-    (: io format '"path-info: ~p method: ~p arg-data: ~p~n" (list a b c))
+  ((path method arg)
+    (: io format
+      '"Unmatched route!~n Path-info: ~p~n method: ~p~n arg-data: ~p~n~n"
+      (list path method arg))
     #(content
       "application/json"
       "{\"error\": \"Unmatched route.\"}")))
