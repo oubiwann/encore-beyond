@@ -1,14 +1,37 @@
-#################
-yaws-rest-starter
-#################
+#############
+Encore Beyond
+#############
 
 
 Introduction
 ============
 
-This is a project the demonstrates what a RESTful service in `LFE`_ looks like
-when run on top of the `YAWS`_ (`Erlang`_) web server. This may be forked and
-used as the starter codebase for your own project.
+Encore Beyond is a service providing a mechanism for storing, appending,
+and retrieving structured text (likely in the form of JSON). Traditionally,
+CORE has seen a proliferation of data fields added due to temporary needs
+to store data about core CORE models. The value of these fields fades yet
+they continue to live on in the schema, increasing the brittleness of the
+schema. Many of these fields are of no concern to core CORE functionality,
+they are simply stored there.
+
+Encore Beyond seeks to solve this problem by providing a proving ground for
+fields beyond the necessary Encore fields. Clients are free to add/remove
+fields, scoped at the proper level and make decisions based on this
+additional "metadata". Encore Beyond is essentially Metadata-As-A-Service.
+At the moment these fields will need to be explictly searched or indexed,
+they become candidates for moving into the Encore schemas. The advantage
+of this approach is that clients have the flexibility to "adapt" the
+schemas to fit their needs while Encore is free to keep their schemas
+"clean".
+
+
+Technology
+----------
+
+This is a project builds a RESTful service in `LFE`_ and runs on top of
+the `YAWS`_ (`Erlang`_) web server. Of many frameworks tried (several in
+Python, Ruby, and Clojure), this one had the best performance overall when
+rating request/s, memory concumption, and platform stability.
 
 
 Dependencies
@@ -41,6 +64,7 @@ Just clone this puppy and jump in:
 
 .. code:: bash
 
+Dev server:
     $ git clone https://github.com/lfe/yaws-rest-starter.git
     $ cd yaws-rest-starter
     $ make compile
@@ -68,6 +92,7 @@ printing (e.g., ``(: io format ...)``) sent to sdout, just do this:
 
     $ make dev
 
+<<<<<<< HEAD
 To run the daemon, do:
 
 .. code:: bash
@@ -79,6 +104,12 @@ To stop the server once in daemon mode, do:
 .. code:: bash
 
     $ make stop
+=======
+Production server:
+    $ made run
+
+This will install all the dependencies and start up the YAWS server.
+>>>>>>> 01589523fe054187e44ab3a1a78c2c0bc970dcf8
 
 
 Checking the HTTP Verbs
