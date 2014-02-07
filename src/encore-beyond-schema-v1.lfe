@@ -11,7 +11,6 @@
   ((path method arg-data)
     (: encore-beyond-schema dispatch method path arg-data)))
 
-
 (defun out (arg-data)
   "This is called by YAWS when the requested URL matches the URL specified in
   the YAWS config (see ./etc/yaws.conf) with the 'appmods' directive for the
