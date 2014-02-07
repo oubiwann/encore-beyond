@@ -26,8 +26,8 @@ schemas to fit their needs while Encore is free to keep their schemas
 ### Technology
 
 This is a project builds a RESTful service in
-[LFE](https://github.com/rvirding/lfe) and runs on top of
-the [YAWS](https://github.com/klacke/yaws)
+[LFE](https://github.com/rvirding/lfe) and runs on top of the
+[YAWS](https://github.com/klacke/yaws)
 ([Erlang](http://www.erlang.org/)) web server. Of many frameworks tried (several in
 Python, Ruby, and Clojure), this one had the best performance overall when
 rating request/s, memory concumption, and platform stability.
@@ -36,8 +36,7 @@ rating request/s, memory concumption, and platform stability.
 ### Dependencies
 
 This project assumes that you have
-[rebar](https://github.com/rebar/rebar) installed somwhere in your
-``$PATH``.
+[rebar](https://github.com/rebar/rebar) installed somwhere in your ``$PATH``.
 
 If you are running Ubuntu, you will need to install the following:
 ```bash
@@ -103,39 +102,39 @@ with curl.
 
 Here's a ``GET``:
 ```bash
-    $ curl -D- -X GET http://localhost:8000/
+    $ curl -D- -X GET http://localhost:8000/v1/demo
     HTTP/1.1 200 OK
     Server: Yaws 1.98
     Date: Fri, 07 Feb 2014 04:57:58 GMT
     Content-Length: 34
     Content-Type: application/json
 
-    {"data": "Here, hazsomeGETdataz!"}
+    {"data": "Here, hazsomeGETdatuhz!"}
 ```
 
 And a ``POST``:
 
 ```bash
-    $ curl -D- -X POST http://localhost:8000/
+    $ curl -D- -X POST http://localhost:8000/v1/demo
     HTTP/1.1 200 OK
     Server: Yaws 1.98
     Date: Fri, 07 Feb 2014 04:58:38 GMT
     Content-Length: 34
     Content-Type: application/json
 
-    {"data": "YOU madesomePOSTdataz!"}
+    {"data": "YOU madesomePOSTdatuhz!"}
 ```
 
 One more: a Here's a ``GET``:
 ```bash
-    $ curl -D- -X OPTIONS http://localhost:8000/
+    $ curl -D- -X OPTIONS http://localhost:8000/v1/demo
     HTTP/1.1 200 OK
     Server: Yaws 1.98
     Date: Fri, 07 Feb 2014 04:59:44 GMT
     Content-Length: 38
     Content-Type: application/json
 
-    {"data": "Here, hazsomeOPTIONSdataz!"}
+    {"data": "Here, hazsomeOPTIONSdatuhz!"}
 ```
 
 ### Benchmarks
