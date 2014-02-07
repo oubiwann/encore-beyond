@@ -1,9 +1,9 @@
-(defmodule encore-beyond-v1
+(defmodule encore-beyond-schema-v1
   (export all))
 
 
 (defun routes
-  "Routes for Metadata REST API"
+  "Routes for Metadata Schema REST API"
   (('"/test" method arg-data)
     (: encore-beyond-demo get-data method arg-data))
   (('"/demo" method arg-data)
