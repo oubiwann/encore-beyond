@@ -61,8 +61,8 @@ rebar to the ``deps`` directory of this project when you run ``make deps``
 Just clone this puppy and jump in:
 
 ```bash
-    $ git clone https://github.com/lfe/yaws-rest-starter.git
-    $ cd yaws-rest-starter
+    $ git clone https://github.rackspace.com/rackertools/encore-beyond.git
+    $ cd encore-beyond
     $ make compile
 ```
 
@@ -75,11 +75,11 @@ If your compile process fails, you may need to run ``make get-deps`` explicitly
 and then re-run ``make compile``.
 
 
-## The REST Server
+## The Encore Beyond Server
 
 ### Starting and Stopping
 
-To start the YAWS server + demo REST service in development mode, with any
+To start the YAWS server + Encore Beyond service in development mode, with any
 printing (e.g., ``(: io format ...)``) sent to sdout, just do this:
 ```bash
     $ make dev
@@ -93,48 +93,6 @@ To run the daemon, do:
 To stop the server once in daemon mode, do:
 ```bash
     $ make stop
-```
-
-### Checking the HTTP Verbs
-
-You can make calls to and example the responses from the demo REST server
-with curl.
-
-Here's a ``GET``:
-```bash
-    $ curl -D- -X GET http://localhost:8000/v1/demo
-    HTTP/1.1 200 OK
-    Server: Yaws 1.98
-    Date: Fri, 07 Feb 2014 04:57:58 GMT
-    Content-Length: 34
-    Content-Type: application/json
-
-    {"data": "Here, hazsomeGETdatuhz!"}
-```
-
-And a ``POST``:
-
-```bash
-    $ curl -D- -X POST http://localhost:8000/v1/demo
-    HTTP/1.1 200 OK
-    Server: Yaws 1.98
-    Date: Fri, 07 Feb 2014 04:58:38 GMT
-    Content-Length: 34
-    Content-Type: application/json
-
-    {"data": "YOU madesomePOSTdatuhz!"}
-```
-
-One more: a Here's a ``GET``:
-```bash
-    $ curl -D- -X OPTIONS http://localhost:8000/v1/demo
-    HTTP/1.1 200 OK
-    Server: Yaws 1.98
-    Date: Fri, 07 Feb 2014 04:59:44 GMT
-    Content-Length: 38
-    Content-Type: application/json
-
-    {"data": "Here, hazsomeOPTIONSdatuhz!"}
 ```
 
 ### Benchmarks
@@ -158,50 +116,4 @@ And one for ``httperf``:
       --server localhost --port 8000 --uri / \
       --timeout 5 --rate 100 \
       --num-calls 10000 --num-conns 10
-```
-
-## Development
-
-For a simple REST service, you might only need to replace the code for each
-HTTP verb in ``src/yaws-rest-starter.lfe``. For more involved work, you could
-split each of those out in to separate functions, e.g.:
-
-```lisp
-    (defun handle
-      (('GET arg)
-       (handle-get arg))
-      (('POST arg)
-       (handle-post arg))
-       ...
-       )
-
-    (defun handle-get
-      "Lots of complicated logic, possibly with intricate pattern matching
-      of the arg parameter."
-      (( ...
-       )))
-```
-
-One could take this a step further for even more complicated projects with
-larger codebases, and move the dispatched functions into their own modules.
-For instance, in ``./src/your-project.lfe``:
-
-```lisp
-    (defun handle
-      (('GET arg)
-       (: your-project-gets handle arg))
-       ...
-       )
-```
-
-And then have a ``src/your-project-gets.lfe`` file for this code that defines
-``handle``:
-
-```lisp
-    (defun handle
-      "Lots of complicated logic, possibly with intricate pattern matching
-      of the arg parameter, with each pattern dispatching to other code in
-      the module."
-      (( ...
-       )))
 ```
