@@ -5,7 +5,9 @@
 
 
 (defun parse-path (arg-data)
-  "Get pathino."
+  "Get pathinfo.
+
+  This is used as the key to refer to specific preferences."
   (arg-pathinfo arg-data))
 
 (defun method (arg-data)

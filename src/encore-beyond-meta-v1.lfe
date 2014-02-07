@@ -1,4 +1,4 @@
-(defmodule encore-beyond-v1
+(defmodule encore-beyond-meta-v1
   (export all))
 
 
@@ -8,13 +8,8 @@
     (: encore-beyond-demo get-data method arg-data))
   (('"/demo" method arg-data)
     (: encore-beyond-demo get-data method arg-data))
-  ((path method arg)
-    (: io format
-      '"Unmatched route!~n Path-info: ~p~n method: ~p~n arg-data: ~p~n~n"
-      (list path method arg))
-    #(content
-      "application/json"
-      "{\"error\": \"Unmatched route.\"}")))
+  ((path method arg-data)
+    (: encore-beyond-meta dispatch method path arg-data)))
 
 (defun out (arg-data)
   "This is called by YAWS when the requested URL matches the URL specified in
