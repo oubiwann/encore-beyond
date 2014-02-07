@@ -76,7 +76,7 @@ If your compile process fails, you may need to run ``make get-deps`` explicitly
 and then re-run ``make compile``.
 
 
-## The Demo Server
+## The REST Server
 
 ### Starting and Stopping
 
