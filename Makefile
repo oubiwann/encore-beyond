@@ -38,9 +38,6 @@ stats:
 stop:
 	@ERL_LIBS=$(ERL_LIBS) $(YAWS) --stop --id $(YAWS_SERVER_ID)
 
-stop:
-	@ERL_LIBS=$(ERL_LIBS) $(YAWS) --stop
-
 get-version:
 	@echo
 	@echo "Getting version info ..."
