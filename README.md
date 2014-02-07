@@ -1,11 +1,8 @@
-#############
-Encore Beyond
-#############
+# Encore Beyond
 
 Wikipage: https://github.rackspace.com/rackertools/dev/wiki/Encore-Beyond
 
-Introduction
-============
+## Introduction
 
 Encore Beyond is a service providing a mechanism for storing, appending,
 and retrieving structured text (likely in the form of JSON). Traditionally,
@@ -26,8 +23,7 @@ schemas to fit their needs while Encore is free to keep their schemas
 "clean".
 
 
-Technology
-----------
+### Technology
 
 This is a project builds a RESTful service in
 [LFE](https://github.com/rvirding/lfe) and runs on top of
@@ -37,8 +33,7 @@ Python, Ruby, and Clojure), this one had the best performance overall when
 rating request/s, memory concumption, and platform stability.
 
 
-Dependencies
-------------
+### Dependencies
 
 This project assumes that you have
 [rebar](https://github.com/rebar/rebar) installed somwhere in your
@@ -62,8 +57,7 @@ rebar to the ``deps`` directory of this project when you run ``make deps``
 * [YAWS](https://github.com/klacke/yaws) (The granddaddy of Erlang web servers)
 
 
-Installation
-============
+## Installation
 
 Just clone this puppy and jump in:
 
@@ -76,19 +70,15 @@ Just clone this puppy and jump in:
 This will install all the dependencies and compile everything you need.
 
 
-Troubleshooting
----------------
+### Troubleshooting
 
 If your compile process fails, you may need to run ``make get-deps`` explicitly
 and then re-run ``make compile``.
 
 
-The Demo Server
-===============
+## The Demo Server
 
-
-Starting and Stopping
----------------------
+### Starting and Stopping
 
 To start the YAWS server + demo REST service in development mode, with any
 printing (e.g., ``(: io format ...)``) sent to sdout, just do this:
@@ -106,8 +96,7 @@ To stop the server once in daemon mode, do:
     $ make stop
 ```
 
-Checking the HTTP Verbs
------------------------
+### Checking the HTTP Verbs
 
 You can make calls to and example the responses from the demo REST server
 with curl.
@@ -149,8 +138,7 @@ One more: a Here's a ``GET``:
     {"data": "Here, hazsomeOPTIONSdataz!"}
 ```
 
-Benchmarks
-==========
+### Benchmarks
 
 Benchmarks are a lie. Okay, now that we've gotten that out of the way, on
 with the lies!
@@ -173,8 +161,7 @@ And one for ``httperf``:
       --num-calls 10000 --num-conns 10
 ```
 
-Development
-===========
+## Development
 
 For a simple REST service, you might only need to replace the code for each
 HTTP verb in ``src/yaws-rest-starter.lfe``. For more involved work, you could
