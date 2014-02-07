@@ -1,7 +1,7 @@
-Expm.Package.new(name: "yaws-rest-starter",
-                 description: "PROJECT DESCRIPTION",
+Expm.Package.new(name: "encore-beyond",
+                 description: "Metadata as a Service for Encore",
                  version: "0.0.1",
-                 keywords: ["LFE", "Lisp", "Library", "API"],
-                 maintainers: [[name: "YOUR NAME",
-                                email: "YOUR@EMAIL.com"]],
-                 repositories: [[github: "YOUR_GITHUB_NAME/yaws-rest-starter"]])
+                 keywords: ["LFE", "Lisp", "Library", "API", "REST"],
+                 maintainers: [[name: "Duncan McGreggor",
+                                email: "duncan.mcgreggor@rackspace.com"]],
+                 repositories: [[github: "rackertools/encore-beyond"]])

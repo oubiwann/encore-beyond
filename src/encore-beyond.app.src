@@ -1,8 +1,8 @@
 %% -*- erlang -*-
-{application, 'yaws-rest-starter',
+{application, 'encore-beyond',
  [
   %% A quick description of the application.
-  {description, "My project description..."},
+  {description, "Metadata as a Service for Encore"},
 
   %% The version of the application
   {vsn, "0.0.1"},
@@ -10,7 +10,7 @@
   %% All modules used by the application.
   {modules,
    [
-    'yaws-rest-starter'
+    'encore-beyond'
    ]},
 
   %% All of the registered names the application uses. This can be ignored.

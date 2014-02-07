@@ -1,4 +1,4 @@
-(defmodule yaws-rest-starter_tests
+(defmodule encore-beyond_tests
   (export all)
   (import
     (from lfeunit-util

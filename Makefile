@@ -1,5 +1,5 @@
-PROJECT = yaws-rest-starter
-LIB = yaws-rest-starter
+PROJECT = encore-beyond
+LIB = encore-beyond
 DEPS = ./deps
 BIN_DIR = ./bin
 ETC_DIR = ./etc
@@ -34,6 +34,9 @@ update-conf:
 stats:
 	@ERL_LIBS=$(ERL_LIBS) $(YAWS) -S --conf $(YAWS_CONF)
 
+stop:
+	@ERL_LIBS=$(ERL_LIBS) $(YAWS) --stop
+
 get-version:
 	@echo
 	@echo "Getting version info ..."
@@ -52,7 +55,7 @@ get-version:
 #>--$ ERL_LIB=some/path make get-install-dir
 #
 # Which would give the following result:
-#>--some/path/yaws-rest-starter-1.0.0
+#>--some/path/encore-beyond-1.0.0
 #
 get-install-dir:
 	@echo $(ERL_LIB)/$(PROJECT)-$(shell make get-version)

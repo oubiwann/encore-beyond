@@ -1,11 +1,8 @@
-(defmodule yaws-rest-starter
+(defmodule encore-beyond
   (export all))
 
 (include-lib "yaws/include/yaws_api.hrl")
 
-(defrecord arg2
-  req
-  pathinfo)
 
 (defun method (arg-data)
   (let ((record (arg-req arg-data)))
