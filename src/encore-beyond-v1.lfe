@@ -20,4 +20,4 @@
 
   In particular, this function is intended to handle all v1 traffic for this
   REST API."
-  (: encore-beyond meta-out arg-data #'routes/3))
+  (: encore-beyond-util meta-out arg-data #'routes/3))

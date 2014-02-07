@@ -1,11 +1,11 @@
-(defmodule encore-beyond
+(defmodule encore-beyond-util
   (export all))
 
 (include-lib "yaws/include/yaws_api.hrl")
 
 
 (defun parse-path (arg-data)
-  ""
+  "Get pathino."
   (arg-pathinfo arg-data))
 
 (defun method (arg-data)
