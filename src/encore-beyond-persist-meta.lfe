@@ -3,21 +3,43 @@
 
 (defrecord metadata key value)
 
-(defun start
-  ;; (: mnesia create_schema (list (node))) ;; unnecessary for local dev
+(defun start ()
+  "
+  Starts the mnesia application and creates a table for
+  metadata. Currently, table is in-memory only.
+
+  Returns 'ok.
+  "
   (: mnesia start)
   (let (((tuple atomic ok)
-         (: mnesia create_table 'metadata '(#(attributes (key value))))))))
+         (: mnesia create_table 'metadata '(#(attributes (key value)))))))
+  'ok)
 
-;; pattern match 'ok
-(defun ensure-loaded
-  ((: mnesia wait-for-tables '([metadata], infinity))))
+(defun read (key)
+  "
+  This function takes a key and returns a record if it is
+  stored in Mnesia. This wraps mnesia:dirty_read/1 which
+  is 10x faster than running in a transaction. A
+  transaction would protect from concurrency concerns.
 
-;; lifted from lfe examples, yet fails to compile
-(defun persist key value
-  (match-lambda
-    ([(tuple k v)]
-     (: mnesia transaction
-       (lambda ()
-         (let ((new (make-metadata key k value v)))
-           (: mnesia write new)))))))
+  Any unsuccessful search returns:
+  #(aborted #(no_exists (metadata, key)))
+  "
+  (: mnesia dirty_read (tuple 'metadata, key)))
+
+(defun write (key_arg value_arg)
+  "
+  This function takes a key and value as arguments. The key
+  and value are used to make a record and store it in
+  Mnesia via a transaction.
+
+  The function returns #(atomic ok).
+  "
+  ;; returns #(atomic ok)
+  (: mnesia transaction
+    (lambda ()
+      (let ((metadata (make-metadata key key_arg value value_arg)))
+        (: mnesia write metadata)))))
+
+;; > (: mnesia dirty_read (tuple 'metadata 'my_key))
+;; (#(metadata my_key my-value))
