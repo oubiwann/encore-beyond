@@ -30,7 +30,10 @@ This is a project builds a RESTful service in
 [YAWS](https://github.com/klacke/yaws)
 ([Erlang](http://www.erlang.org/)) web server. Of many frameworks tried (several in
 Python, Ruby, and Clojure), this one had the best performance overall when
-rating request/s, memory concumption, and platform stability.
+rating request/s, memory concumption, and platform stability. Furthermore, in less
+than two hours, were we able to build a REST *framework* capable of handling
+80,000 concurrent connections. Subsequent service setups using this framework take
+mere seconds to set up.
 
 
 ### Dependencies
