@@ -8,5 +8,5 @@
 
   Returns 'ok."
   (let (('ok
-         (: encore-beyond-persist-meta start))))
+         (: encore-beyond-meta-storage start))))
   'ok)

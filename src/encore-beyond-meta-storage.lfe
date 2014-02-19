@@ -1,4 +1,4 @@
-(defmodule encore-beyond-persist-meta
+(defmodule encore-beyond-meta-storage
   (export all))
 
 (defrecord metadata key value)
