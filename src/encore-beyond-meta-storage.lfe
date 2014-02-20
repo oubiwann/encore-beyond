@@ -1,7 +1,7 @@
 (defmodule encore-beyond-meta-storage
   (export all))
 
-(defrecord metadata key value)
+(include-lib "include/data-records.lfe")
 
 (defun start ()
   "Starts the mnesia application and creates a table for
