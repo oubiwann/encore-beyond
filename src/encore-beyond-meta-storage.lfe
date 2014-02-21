@@ -10,7 +10,7 @@
   Returns 'ok."
   (: mnesia start)
   (let (((tuple atomic ok)
-         (: mnesia create_table 'metadata '(#(attributes (key value)))))))
+         (: mnesia create_table (table-name) '(#(attributes (key value)))))))
   'ok)
 
 (defun read (key)
@@ -19,9 +19,17 @@
   is 10x faster than running in a transaction. A
   transaction would protect from concurrency concerns.
 
-  Any unsuccessful search returns:
+  Any search that fails to return a record will return 'undefined
+
+  Any search that raises an error wil return:
   #(aborted #(no_exists (metadata, key)))"
-  (: mnesia dirty_read (tuple 'metadata, key)))
+  (let ((response (: mnesia dirty_read (tuple (table-name) key))))
+    (case response
+      (() `#(error #(not-found ,key)))
+      (_ response))))
+
+(defun table-name ()
+  'metadata)
 
 (defun write (key-data value-data)
   "This function takes a key and value as arguments. The key
