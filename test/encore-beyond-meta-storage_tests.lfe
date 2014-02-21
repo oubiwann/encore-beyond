@@ -7,7 +7,6 @@
     (from encore-beyond-meta-storage
       (read 1)
       (start 0)
-      (stop 0)
       (table-name 0)
       (write 2))))
 
@@ -16,27 +15,47 @@
 
 (deftest read-existing-record-returns-record
   (: meck new 'mnesia)
-  (: meck expect 'mnesia 'dirty_read 1 (metadata-record '"my-key" '"my-data"))
+  (: meck expect 'mnesia 'dirty_read 1 (metadata-record '"/domain/key" '"my-data"))
   (try
-    (let* ((metadata (read '"my-key"))
-           (record   (metadata-record '"my-key" '"my-data")))
+    (let* ((metadata (read '"/domain/key"))
+           (record   (metadata-record '"/domain/key" '"my-data")))
       (is-equal metadata record))
     (after
       (: meck validate 'mnesia)
       (: meck unload 'mnesia))))
 
-(deftest read-nonexisting-record-returns-empty-tuple
+(deftest read-with-mnesia-error-passes-error-through
   (: meck new 'mnesia)
-  (: meck expect 'mnesia 'dirty_read 1 ())
+  (: meck expect 'mnesia 'dirty_read 1 #(aborted #(no_exists ())))
   (try
-    (let* ((metadata (read '"my-key")))
-      (is-match #(error #(not-found "my-key")) metadata))
+    (let* ((metadata (read '"/domain/nokey")))
+      (is-match #(aborted #(no_exists ())) metadata))
     (after
       (: meck validate 'mnesia)
       (: meck unload 'mnesia))))
 
-(defun metadata-not-found (key)
-  #(error #(not-found key)))
+(deftest read-nonexisting-record-returns-error-tuple
+  (: meck new 'mnesia)
+  (: meck expect 'mnesia 'dirty_read 1 ())
+  (try
+    (let* ((metadata (read '"/domain/nokey")))
+      (is-match #(error #(not-found "/domain/nokey")) metadata))
+    (after
+      (: meck validate 'mnesia)
+      (: meck unload 'mnesia))))
+
+(deftest start-starts-mnesia-and-creates-table
+  (: meck new 'mnesia)
+  (: meck expect 'mnesia 'start 0 ())
+  (: meck expect 'mnesia 'create_table 2 #(atomic ok))
+  (try
+    (is-match ok (start))
+    (after
+      (: meck validate 'mnesia)
+      (: meck unload 'mnesia))))
+
+(deftest table-name-returns-metadata
+  (is-equal 'metadata (table-name)))
 
 (defun metadata-record (key-data value-data)
   (make-metadata key key-data value value-data))

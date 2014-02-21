@@ -3,16 +3,6 @@
 
 (include-lib "include/data-records.lfe")
 
-(defun start ()
-  "Starts the mnesia application and creates a table for
-  metadata. Currently, table is in-memory only.
-
-  Returns 'ok."
-  (: mnesia start)
-  (let (((tuple atomic ok)
-         (: mnesia create_table (table-name) '(#(attributes (key value)))))))
-  'ok)
-
 (defun read (key)
   "This function takes a key and returns a record if it is
   stored in Mnesia. This wraps mnesia:dirty_read/1 which
@@ -28,6 +18,16 @@
       (() `#(error #(not-found ,key)))
       (_ response))))
 
+(defun start ()
+  "Starts the mnesia application and creates a table for
+  metadata. Currently, table is in-memory only.
+
+  Returns 'ok."
+  (: mnesia start)
+  (let (((tuple atomic ok)
+         (: mnesia create_table (table-name) '(#(attributes (key value)))))))
+  'ok)
+
 (defun table-name ()
   'metadata)
 
@@ -41,6 +41,3 @@
     (lambda ()
       (let ((metadata (make-metadata key key-data value value-data)))
         (: mnesia write metadata)))))
-
-;; > (: mnesia dirty_read (tuple 'metadata 'my_key))
-;; (#(metadata my_key my-value))
