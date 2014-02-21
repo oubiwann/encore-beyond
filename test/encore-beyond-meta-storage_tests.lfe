@@ -8,6 +8,7 @@
       (read 1)
       (start 0)
       (stop 0)
+      (table-name 0)
       (write 2))))
 
 (include-lib "deps/lfeunit/include/lfeunit-macros.lfe")
@@ -23,6 +24,19 @@
     (after
       (: meck validate 'mnesia)
       (: meck unload 'mnesia))))
+
+(deftest read-nonexisting-record-returns-empty-tuple
+  (: meck new 'mnesia)
+  (: meck expect 'mnesia 'dirty_read 1 ())
+  (try
+    (let* ((metadata (read '"my-key")))
+      (is-match #(error #(not-found "my-key")) metadata))
+    (after
+      (: meck validate 'mnesia)
+      (: meck unload 'mnesia))))
+
+(defun metadata-not-found (key)
+  #(error #(not-found key)))
 
 (defun metadata-record (key-data value-data)
   (make-metadata key key-data value value-data))
