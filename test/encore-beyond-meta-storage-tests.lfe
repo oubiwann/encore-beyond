@@ -1,4 +1,4 @@
-(defmodule encore-beyond-meta-storage_tests
+(defmodule encore-beyond-meta-storage-tests
   (export all)
   (import
     (from lfeunit-util
