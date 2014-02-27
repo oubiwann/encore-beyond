@@ -3,20 +3,12 @@
 
 (include-lib "include/data-records.lfe")
 
-(defun read (key)
+(defun read (key) ;; abort tuple | record list
   "This function takes a key and returns a record if it is
   stored in Mnesia. This wraps mnesia:dirty_read/1 which
   is 10x faster than running in a transaction. A
-  transaction would protect from concurrency concerns.
-
-  Any search that fails to return a record will return 'undefined
-
-  Any search that raises an error wil return:
-  #(aborted #(no_exists (metadata, key)))"
-  (let ((response (: mnesia dirty_read (tuple (table-name) key))))
-    (case response
-      (() `#(error #(not-found ,key)))
-      (_ response))))
+  transaction would protect from concurrency concerns."
+  (: mnesia dirty_read (tuple (table-name) key)))
 
 (defun start ()
   "Starts the mnesia application and creates a table for

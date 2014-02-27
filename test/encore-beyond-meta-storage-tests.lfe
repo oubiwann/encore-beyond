@@ -13,33 +13,49 @@
 (include-lib "deps/lfeunit/include/lfeunit-macros.lfe")
 (include-lib "include/data-records.lfe")
 
-(deftest read-existing-record-returns-record
+(deftest read-returns-record
   (: meck new 'mnesia)
-  (: meck expect 'mnesia 'dirty_read 1 (metadata-record '"/domain/key" '"my-data"))
+  (: meck expect 'mnesia 'dirty_read 1
+    (list (metadata-record '"/domain/key" '"my-data")))
   (try
     (let* ((metadata (read '"/domain/key"))
-           (record   (metadata-record '"/domain/key" '"my-data")))
+           (record   (list (metadata-record '"/domain/key" '"my-data"))))
       (is-equal metadata record))
     (after
       (: meck validate 'mnesia)
       (: meck unload 'mnesia))))
 
-(deftest read-with-mnesia-error-passes-error-through
+(deftest read-returns-multiple-records
+  (: meck new 'mnesia)
+  (: meck expect 'mnesia 'dirty_read 1
+     (list (metadata-record '"/domain/key" '"my-data")
+           (metadata-record '"/domain/key2" '"my-data")))
+  (try
+    (let* ((metadata (read '"/domain/key"))
+           (record   (list
+                      (metadata-record '"/domain/key" '"my-data")
+                      (metadata-record '"/domain/key2" '"my-data"))))
+      (is-equal metadata record))
+    (after
+      (: meck validate 'mnesia)
+      (: meck unload 'mnesia))))
+
+(deftest read-returns-empty-record-list
+  (: meck new 'mnesia)
+  (: meck expect 'mnesia 'dirty_read 1 ())
+  (try
+    (let* ((metadata (read '"/domain/nokey")))
+      (is-match () metadata))
+    (after
+      (: meck validate 'mnesia)
+      (: meck unload 'mnesia))))
+
+(deftest read-with-storage-error-returns-error
   (: meck new 'mnesia)
   (: meck expect 'mnesia 'dirty_read 1 #(aborted #(no_exists ())))
   (try
     (let* ((metadata (read '"/domain/nokey")))
       (is-match #(aborted #(no_exists ())) metadata))
-    (after
-      (: meck validate 'mnesia)
-      (: meck unload 'mnesia))))
-
-(deftest read-nonexisting-record-returns-error-tuple
-  (: meck new 'mnesia)
-  (: meck expect 'mnesia 'dirty_read 1 ())
-  (try
-    (let* ((metadata (read '"/domain/nokey")))
-      (is-match #(error #(not-found "/domain/nokey")) metadata))
     (after
       (: meck validate 'mnesia)
       (: meck unload 'mnesia))))
