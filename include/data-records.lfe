@@ -1,1 +1,3 @@
-(defrecord metadata key value)
+(defrecord metadata
+  key
+  value)
