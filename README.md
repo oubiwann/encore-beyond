@@ -82,10 +82,15 @@ and then re-run ``make compile``.
 
 ### Starting and Stopping
 
-To start the YAWS server + Encore Beyond service in development mode, with any
+To start the YAWS server + Mnesia + Encore Beyond service in development mode, with any
 printing (e.g., ``(: io format ...)``) sent to sdout, just do this:
 ```bash
     $ make dev
+```
+
+To stop the dev server, just do this in the console (you might have to hit 'Enter' to get the prompt to show):
+```text
+    1> q().
 ```
 
 To run the daemon, do:

@@ -1,4 +1,4 @@
-(defmodule encore-beyond_tests
+(defmodule encore-beyond-tests
   (export all)
   (import
     (from lfeunit-util
