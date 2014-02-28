@@ -1,21 +1,29 @@
 (defmodule encore-beyond-meta
-  (export all))
+  (export all)
+  (import
+    (rename encore-beyond-meta-storage
+      ((read 1) storage-read)
+      ((write 2) storage-write))
+    (from encore-beyond-util
+      (make-json-content 1)
+      (make-json-error 0)
+      (make-json-fail 0)
+      (make-json-not-found 0)
+      (make-json-ok 0))))
 
 (include-lib "include/data-records.lfe")
 
 (defun dispatch
   "This is called by Yaws to determine and render a response."
   (('GET path arg-data)
-   (let ((result (car (: encore-beyond-meta-storage read path))))
+   (let ((result (car (storage-read path))))
      (if (is-metadata result)
-       (let ((value (metadata-value result)))
-         `#(content "application/json" ,value))
-       #(content "application/json" "{\"result\": \"not_found\"}"))))
+       (make-json-content (metadata-value result))
+       (make-json-error))))
 
   (('PUT path arg-data)
-   (let ((key path)
-         (value (binary_to_list (: erlang element 7 arg-data))))
-     (let ((result (: encore-beyond-meta-storage write key value)))
+   (let ((value (binary_to_list (: erlang element 7 arg-data))))
+     (let ((result (storage write path value)))
        (case result
-         ((tuple atomic ok) #(content "application/json" "{\"result\": \"ok\"}"))
-         (_ #(content "application/json" "{\"result\": \"fail\"}")))))))
+         ((tuple atomic ok) (make-json-ok))
+         (_ (make-json-fail)))))))
