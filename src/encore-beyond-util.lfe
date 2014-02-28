@@ -3,7 +3,6 @@
 
 (include-lib "yaws/include/yaws_api.hrl")
 
-
 (defun parse-path (arg-data)
   "Get pathinfo.
 
@@ -22,3 +21,22 @@
   (let ((method-name (method arg-data))
         (path-info (parse-path arg-data)))
     (funcall router path-info method-name arg-data)))
+
+(defun make-json-content (content)
+  `#(content "application/json" ,content))
+
+(defun make-json-result (data)
+  (make-json-content
+    (++ "{\"result\": " data "}")))
+
+(defun make-json-error ()
+  (make-json-result '"\"error\""))
+
+(defun make-json-fail ()
+  (make-json-result '"\"fail\""))
+
+(defun make-json-not-found ()
+  (make-json-result '"\"not found\""))
+
+(defun make-json-ok (data)
+  (make-json-result '"\"ok\""))
