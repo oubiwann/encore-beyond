@@ -1,15 +1,21 @@
 (defmodule encore-beyond-meta-v1
-  (export all))
-
+  (export all)
+  (import
+    (from encore-beyond-demo
+      (get-data 2))
+    (from encore-beyond-meta
+      (dispatch 3))
+    (from encore-beyond-util
+      (meta-out 2))))
 
 (defun routes
   "Routes for Metadata REST API"
   (('"/test" method arg-data)
-    (: encore-beyond-demo get-data method arg-data))
+    (get-data method arg-data))
   (('"/demo" method arg-data)
-    (: encore-beyond-demo get-data method arg-data))
+    (get-data method arg-data))
   ((path method arg-data)
-    (: encore-beyond-meta dispatch method path arg-data)))
+    (dispatch method path arg-data)))
 
 (defun out (arg-data)
   "This is called by YAWS when the requested URL matches the URL specified in
@@ -18,4 +24,4 @@
 
   In particular, this function is intended to handle all v1 traffic for this
   REST API."
-  (: encore-beyond-util meta-out arg-data #'routes/3))
+  (meta-out arg-data #'routes/3))
