@@ -1,5 +1,12 @@
 (defmodule encore-beyond-schema
-  (export all))
+  (export all)
+  (import
+    (from encore-beyond-util
+      (make-json-content 1)
+      (make-json-error 0)
+      (make-json-fail 0)
+      (make-json-not-found 0)
+      (make-json-ok 0))))
 
 
 (defun dispatch
@@ -11,6 +18,4 @@
   presented here for completeness. (In particular, TRACE and CONNECT are not
   supported.)"
   (('GET path arg-data)
-   #(content
-     "application/json"
-     "{\"data\": \"Here, hazsomeGETdatuhz!\"}")))
+    (make-json-content '"\"Here, hazsomeGETdatuhz!\"")))
