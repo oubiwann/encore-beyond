@@ -14,7 +14,7 @@
 (include-lib "include/data-records.lfe")
 
 (defun dispatch
-  "This is called by Yaws to determine and render a response."
+  "This is called by YAWS to determine and render a response."
   (('GET path arg-data)
    (let ((result (car (storage-read path))))
      (if (is-metadata result)
@@ -23,7 +23,7 @@
 
   (('PUT path arg-data)
    (let ((value (binary_to_list (: erlang element 7 arg-data))))
-     (let ((result (storage write path value)))
+     (let ((result (storage-write path value)))
        (case result
          ((tuple atomic ok) (make-json-ok))
          (_ (make-json-fail)))))))
