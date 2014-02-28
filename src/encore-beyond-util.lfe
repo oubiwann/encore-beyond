@@ -38,5 +38,5 @@
 (defun make-json-not-found ()
   (make-json-result '"\"not found\""))
 
-(defun make-json-ok (data)
+(defun make-json-ok ()
   (make-json-result '"\"ok\""))
