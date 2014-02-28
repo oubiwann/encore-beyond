@@ -17,7 +17,9 @@
   Returns 'ok."
   (: mnesia start)
   (let (((tuple atomic ok)
-         (: mnesia create_table (table-name) '(#(attributes (key value)))))))
+         (: mnesia create_table
+           (table-name)
+           '(#(attributes (key value)))))))
   'ok)
 
 (defun table-name ()
