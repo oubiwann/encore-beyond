@@ -27,7 +27,7 @@
 
 (defun make-json-result (data)
   (make-json-content
-    (++ "{\"result\": " data "}")))
+    (++ '"{\"result\": " data '"}")))
 
 (defun make-json-error ()
   (make-json-result '"\"error\""))
