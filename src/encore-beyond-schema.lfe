@@ -3,10 +3,11 @@
   (import
     (from encore-beyond-util
       (make-json-content 1)
-      (make-json-error 0)
-      (make-json-fail 0)
-      (make-json-not-found 0)
-      (make-json-ok 0))))
+      (make-result-created 0)
+      (make-result-error 0)
+      (make-result-not-found 0)
+      (make-result-ok 1)
+      (make-result-ok 0))))
 
 
 (defun dispatch
