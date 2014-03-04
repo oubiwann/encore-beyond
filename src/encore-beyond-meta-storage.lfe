@@ -1,14 +1,17 @@
 (defmodule encore-beyond-meta-storage
-  (export all))
+  (export all)
+  (import
+    (rename encore-beyond-storage
+      ((read 2) storage-read)
+      ((read-one 2) storage-read-one))))
 
 (include-lib "include/data-records.lfe")
 
-(defun read (key) ;; abort tuple | record list
-  "This function takes a key and returns a record if it is
-  stored in Mnesia. This wraps mnesia:dirty_read/1 which
-  is 10x faster than running in a transaction. A
-  transaction would protect from concurrency concerns."
-  (: mnesia dirty_read (tuple (table-name) key)))
+(defun read (key)
+  (storage-read (table-name) key))
+
+(defun read-one (key)
+  (storage-read-one (table-name) key))
 
 (defun start ()
   "Starts the mnesia application and creates a table for

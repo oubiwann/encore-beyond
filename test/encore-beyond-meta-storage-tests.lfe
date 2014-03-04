@@ -6,6 +6,7 @@
       (check-wrong-assert-exception 2))
     (from encore-beyond-meta-storage
       (read 1)
+      (read-one 1)
       (start 0)
       (table-name 0)
       (write 2))))
@@ -13,59 +14,36 @@
 (include-lib "deps/lfeunit/include/lfeunit-macros.lfe")
 (include-lib "include/data-records.lfe")
 
-(deftest read-returns-record
-  (: meck new 'mnesia)
-  (: meck expect 'mnesia 'dirty_read 1
-    (list (metadata-record '"/domain/key" '"my-data")))
+(deftest read
+  (: meck new 'encore-beyond-storage)
+  (: meck expect 'encore-beyond-storage 'read 2
+    (tuple 'ok (list (metadata-record '"/domain/key" '"my-data"))))
   (try
     (let* ((metadata (read '"/domain/key"))
-           (record   (list (metadata-record '"/domain/key" '"my-data"))))
+           (record (tuple 'ok (list (metadata-record '"/domain/key" '"my-data")))))
       (is-equal metadata record))
     (after
-      (: meck validate 'mnesia)
-      (: meck unload 'mnesia))))
+      (: meck validate 'encore-beyond-storage)
+      (: meck unload 'encore-beyond-storage))))
 
-(deftest read-returns-multiple-records
-  (: meck new 'mnesia)
-  (: meck expect 'mnesia 'dirty_read 1
-     (list (metadata-record '"/domain/key" '"my-data")
-           (metadata-record '"/domain/key2" '"my-data")))
+(deftest read-one
+  (: meck new 'encore-beyond-storage)
+  (: meck expect 'encore-beyond-storage 'read-one 2
+    (tuple 'ok (metadata-record '"/domain/key" '"my-data")))
   (try
-    (let* ((metadata (read '"/domain/key"))
-           (record   (list
-                      (metadata-record '"/domain/key" '"my-data")
-                      (metadata-record '"/domain/key2" '"my-data"))))
+    (let* ((metadata (read-one '"/domain/key"))
+           (record (tuple 'ok (metadata-record '"/domain/key" '"my-data"))))
       (is-equal metadata record))
     (after
-      (: meck validate 'mnesia)
-      (: meck unload 'mnesia))))
+      (: meck validate 'encore-beyond-storage)
+      (: meck unload 'encore-beyond-storage))))
 
-(deftest read-returns-empty-record-list
-  (: meck new 'mnesia)
-  (: meck expect 'mnesia 'dirty_read 1 ())
-  (try
-    (let* ((metadata (read '"/domain/nokey")))
-      (is-match () metadata))
-    (after
-      (: meck validate 'mnesia)
-      (: meck unload 'mnesia))))
-
-(deftest read-with-storage-error-returns-error
-  (: meck new 'mnesia)
-  (: meck expect 'mnesia 'dirty_read 1 #(aborted #(no_exists ())))
-  (try
-    (let* ((metadata (read '"/domain/nokey")))
-      (is-match #(aborted #(no_exists ())) metadata))
-    (after
-      (: meck validate 'mnesia)
-      (: meck unload 'mnesia))))
-
-(deftest start-starts-mnesia-and-creates-table
+(deftest start-starts-encore-beyond-storage-and-creates-table
   (: meck new 'mnesia)
   (: meck expect 'mnesia 'start 0 ())
   (: meck expect 'mnesia 'create_table 2 #(atomic ok))
   (try
-    (is-match ok (start))
+    (is-match 'ok (start))
     (after
       (: meck validate 'mnesia)
       (: meck unload 'mnesia))))
