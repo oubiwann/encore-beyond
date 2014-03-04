@@ -2,6 +2,7 @@
   (export all))
 
 (include-lib "yaws/include/yaws_api.hrl")
+(include-lib "include/data-records.lfe")
 
 (defun parse-path (arg-data)
   "Get pathinfo.
@@ -29,14 +30,20 @@
   (make-json-content
     (++ '"{\"result\": " data '"}")))
 
-(defun make-json-error ()
-  (make-json-result '"\"error\""))
+(defun make-result-created ()
+  (make-result 201 (make-json-result '"\"created\"")))
 
-(defun make-json-fail ()
-  (make-json-result '"\"fail\""))
+(defun make-result-error ()
+  (make-result 500 (make-json-result '"\"error\"")))
 
-(defun make-json-not-found ()
-  (make-json-result '"\"not found\""))
+(defun make-result-not-found ()
+  (make-result 404 (make-json-result '"\"not found\"")))
 
-(defun make-json-ok ()
-  (make-json-result '"\"ok\""))
+(defun make-result-ok ()
+  (make-result 200 (make-json-result '"\"ok\"")))
+
+(defun make-result-ok (content)
+  (make-result 200 (make-json-content content)))
+
+(defun make-result (status_code content)
+  `(#(status ,status_code) ,content))
