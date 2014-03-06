@@ -10,6 +10,15 @@
   This is used as the key to refer to specific preferences."
   (arg-pathinfo arg-data))
 
+(defun parse-querydata (arg-data)
+  (binary_to_list (arg-querydata arg-data)))
+
+(defun parse-uri (arg-data)
+  "Get URI.
+
+  This is used to set a location header."
+  (arg-server_path arg-data))
+
 (defun method (arg-data)
   "Use the LFE record macros to parse data from the records defined in
   yaws_api.hrl."
@@ -23,6 +32,10 @@
         (path-info (parse-path arg-data)))
     (funcall router path-info method-name arg-data)))
 
+(defun make-header-field (field value)
+  "Makes a header tuple in the format required by YAWS."
+  (tuple 'header (tuple field value)))
+
 (defun make-json-content (content)
   `#(content "application/json" ,content))
 
@@ -32,6 +45,9 @@
 
 (defun make-result-created ()
   (make-result 201 (make-json-result '"\"created\"")))
+
+(defun make-result-created (location)
+  (make-result 201 (make-json-result '"\"created\"") (list (make-header-field 'location location))))
 
 (defun make-result-error ()
   (make-result 500 (make-json-result '"\"error\"")))
@@ -47,3 +63,6 @@
 
 (defun make-result (status_code content)
   `(#(status ,status_code) ,content))
+
+(defun make-result (status_code content headers)
+  (++ (make-result status_code content) headers))

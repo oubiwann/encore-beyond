@@ -7,10 +7,13 @@
     (from encore-beyond-util
       (make-json-content 1)
       (make-result-created 0)
+      (make-result-created 1)
       (make-result-error 0)
       (make-result-not-found 0)
       (make-result-ok 0)
-      (make-result-ok 1))))
+      (make-result-ok 1)
+      (parse-querydata 1)
+      (parse-uri 1))))
 
 (include-lib "include/data-records.lfe")
 
@@ -26,8 +29,11 @@
        (_ (make-result-error)))))
 
   (('PUT path arg-data)
-   (let ((value (binary_to_list (: erlang element 7 arg-data))))
+   (: io format '"~p~n" (list arg-data))
+   (: io format '"~p~n" (list (: erlang element 7 arg-data)))
+   (let ((value (parse-querydata arg-data)))
      (let ((result (storage-write path value)))
        (case result
-         ((tuple atomic ok) (make-result-created))
+         ((tuple atomic ok)
+          (make-result-created (parse-uri arg-data)))
          (_ (make-result-error)))))))
