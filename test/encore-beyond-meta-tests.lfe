@@ -7,12 +7,14 @@
     (from encore-beyond-meta
       (dispatch 3))
     (from encore-beyond-util
+      (make-result-created 1)
       (make-result-error 0)
       (make-result-not-found 0)
       (make-result-ok 1))))
 
 (include-lib "deps/lfeunit/include/lfeunit-macros.lfe")
 (include-lib "include/data-records.lfe")
+(include-lib "yaws/include/yaws_api.hrl")
 
 (deftest dispatch-with-get
   (: meck new 'encore-beyond-meta-storage)
@@ -43,6 +45,22 @@
   (try
     (let ((response (make-result-error)))
       (is-equal response (dispatch 'GET 'path 'arg-data)))
+    (after
+      (: meck validate 'encore-beyond-meta-storage)
+      (: meck unload 'encore-beyond-meta-storage))))
+
+(deftest dispatch-with-put
+  (: meck new 'encore-beyond-meta-storage)
+  (: meck expect 'encore-beyond-meta-storage 'write 2
+     (tuple 'ok (metadata-record 'my-key 'my-value)))
+  (try
+    (let ((response (make-result-created '"/my-path")))
+      (is-equal
+        response
+        (dispatch 'PUT '"/my-path"
+          (make-arg
+            server_path '"/my-path"
+            querydata #b("{ \"name\": \"foobar2\" }")))))
     (after
       (: meck validate 'encore-beyond-meta-storage)
       (: meck unload 'encore-beyond-meta-storage))))
